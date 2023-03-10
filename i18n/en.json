@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"TIB"
+		]
+	},
+	"ElabMigrator": "Admin links",
+	"ElabMigrator-desc": "Adds a [[Special:ElabMigrator|special page]] that migrate data between elabFTW and SMW",
+	"ElabMigrator_documentation": "$1 documentation",
+	"ElabMigrator_general": "General",
+	"ElabMigrator_editsidebar": "Edit sidebar",
+	"ElabMigrator_editcss": "Edit CSS file",
+	"ElabMigrator_editmainpagename": "Edit name of main page",
+	"ElabMigrator_users": "Users",
+	"ElabMigrator_browsesearch": "Browse and search",
+	"ElabMigrator_importexport": "Import and export",
+	"ElabMigrator_pagenotfound": "Failed to find special page with name: $1.",
+	"action-ElabMigrator": "see ElabMigrator",
+	"right-ElabMigrator": "See the link to [[Special:ElabMigrator|ElabMigrator]]"
+}
