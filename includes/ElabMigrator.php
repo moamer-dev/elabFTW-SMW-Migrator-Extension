@@ -19,7 +19,6 @@ class ElabMigrator extends SpecialPage {
 	function __construct() {
 		parent::__construct( 'ElabMigrator' );
 
-        //echo "elabFTW";
 	}
 
     public $array;
@@ -33,7 +32,6 @@ class ElabMigrator extends SpecialPage {
     public $protocol_content;
     public $id;
     public $codes;
-    //public $elabidArray;
     public $newelabidArray;
 
     public function execute( $par ) {
@@ -48,7 +46,6 @@ class ElabMigrator extends SpecialPage {
         global $loop_array;
         global $protocol_content;
         global $id;
-        //global $elabidArray;
         global $elaburlArray;
 
 		$request = $this->getRequest();
@@ -89,10 +86,6 @@ class ElabMigrator extends SpecialPage {
             $wikiURL = 'https://test.service.tib.eu/sfb1368/wiki/';
             $getter->elabFTW_GET($_POST['id']);
             $getter->elaburlGetter();
-            //$getter->elaburlGetter();
-            //print_r($elabidArray);
-            //print_r ($experimentURL);
-            //print_r ($newelabidArray);
 
             foreach ($elaburlArray as $title => $url){
                 if ($url == $experimentURL){
@@ -133,7 +126,6 @@ class ElabMigrator extends SpecialPage {
     private function elabFTW_GET($x)
     {
         
-        //require_once(__DIR__ . '/sfb1368/wiki/extensions/ElabMigrator/sfb1368/wiki/extensions/ElabMigrator/vendor/autoload.php');
         $curl = curl_init();
         curl_setopt_array($curl, [
         CURLOPT_URL => "https://elabftw.chemstorage.de/api/v1/experiments/${x}?format=json",
@@ -174,12 +166,12 @@ class ElabMigrator extends SpecialPage {
                 $meta_extra_fields = $meta_fields;
             }
         }
-        //print_r($array['elabid']);
 
     }
 
     private function protocol_page() {
         require_once(__DIR__ . '/vendor/autoload.php');
+	    
         // initiating an API call to get all protocol titles 
         $category_name = "Protocol";
         $api_url = "https://test.service.tib.eu/sfb1368/wiki/api.php?action=query&list=categorymembers&cmtitle=Category:" . urlencode($category_name) . "&cmlimit=max&format=json";
@@ -216,34 +208,8 @@ class ElabMigrator extends SpecialPage {
             '|Description=' . strip_tags($array['title']) . strip_tags($array['body']).
             '|elabFTWID= https://elabftw.chemstorage.de/experiments.php?mode=view&id='.$id.'}}';
 
-        
 
-        //$auth = new \Addwiki\Mediawiki\Api\Client\Auth\UserAndPassword('Amerm', 'mhabeb41290Md=');
-        //$api = new \Addwiki\Mediawiki\Api\Client\Action\ActionApi('https://test.service.tib.eu/sfb1368/wiki/api.php', $auth);
-        //$services = new \Addwiki\Mediawiki\Api\MediawikiFactory($api);
-
-
-        //$auth = new \Mediawiki\Api\ApiUser('amerm', 'mhabeb41290Md=');
-        //$api = \Mediawiki\Api\MediawikiApi::newFromApiEndpoint('https://test.service.tib.eu/sfb1368/wiki/api.php',$auth);
-        //$services = new \Mediawiki\Api\MediawikiFactory($api);
-
-        //$newContent = new \Addwiki\Mediawiki\DataModel\Content($protocol_content);
-        //$title = new \Addwiki\Mediawiki\DataModel\Title($protocol_name);
-        //$identifier = new \Addwiki\Mediawiki\DataModel\PageIdentifier($title);
-        //$revision = new \Addwiki\Mediawiki\DataModel\Revision($newContent, $identifier);
-        //$services->newRevisionSaver()->save($revision);
-
-        //$newContent = new \Mediawiki\DataModel\Content($protocol_content);
-        //$title = new \Mediawiki\DataModel\Title($protocol_name);
-        //$identifier = new \Mediawiki\DataModel\PageIdentifier($title);
-        //$revision = new \Mediawiki\DataModel\Revision($newContent, $identifier);
-       // $services->newRevisionSaver()->save($revision);
-
-
-
-
-        //new
-                // Set up API authentication
+        // Set up API authentication
         $auth = new \Mediawiki\Api\ApiUser('amerm', 'mhabeb41290Md=');
 
         // Create a new MediaWiki API instance
@@ -256,20 +222,6 @@ class ElabMigrator extends SpecialPage {
         $identifier = new \Mediawiki\DataModel\PageIdentifier($title);
         $revision = new \Mediawiki\DataModel\Revision($newContent, $identifier);
         $services->newRevisionSaver()->save($revision);
-
-        // Set the page title and content
-        //$pageTitle = $protocol_name;
-        //$pageContent = $protocol_content;
-
-        // Create a new page object
-        //$page = new \Mediawiki\DataModel\Page($pageTitle);
-
-        // Set the page content
-        //$page->setContent( new \Mediawiki\DataModel\Content($pageContent) );
-
-        // Save the new page
-        //$services->newPageCreator()->create($page, 'Creating a new page.');
-
 
     }
 
@@ -299,8 +251,8 @@ class ElabMigrator extends SpecialPage {
     }
 
     private function record_page() {
-        //require_once(__DIR__ . '/sfb1368/wiki/extensions/ElabMigrator/vendor/autoload.php');
-
+	require_once(__DIR__ . '/vendor/autoload.php');
+	    
         global $p_name;
         global $array;
         global $metadata_arr;
@@ -330,8 +282,6 @@ class ElabMigrator extends SpecialPage {
 
     private function elabFTW_POST($x)
     {
-        //require_once(__DIR__ . '/sfb1368/wiki/extensions/ElabMigrator/vendor/autoload.php');
-
         global $p_name;
         $url = "https://elabftw.chemstorage.de/api/v1/experiments/${x}";
 
@@ -389,48 +339,8 @@ class ElabMigrator extends SpecialPage {
         $elaburlArray = $result;
         }
     
-    /*
-    private function elaburlGetter()
-    {
-        global $elabidArray;
-        // Send the API request
-        $url = "https://test.service.tib.eu/sfb1368/wiki/api.php?action=ask&query=[[dataResourceUrl::%2B]]|%3FdataResourceUrl|sort%3DdataResourceUrl|order%3Ddesc&format=json";
-        $response = file_get_contents($url);
-
-        // Parse the JSON response
-        $data = json_decode($response, true);
-
-        // Group the values of property "dataResourceUrl" into an array
-        $result = array();
-        foreach ($data["query"]["results"] as $page) {
-            $url = $page["printouts"]["Data Resource URL"][0];
-            if (isset($result[$url])) {
-                $result[$url][] = $page["fullurl"];
-            } else {
-                $result[$url] = array($page["fullurl"]);
-            }
-        }
-        
-        $arr = [];
-        // Print the result
-        //echo "<pre>";
-        //print_r($result);
-        //echo "</pre>";
-
-        foreach ($result as $key =>$value){
-            //print_r($key);
-            array_push($arr,$key);
-        }
-        $elabidArray = $arr;
-
-        }
-*/
-    
-    
-    
     }
 
-//}
 ?>
 
 
