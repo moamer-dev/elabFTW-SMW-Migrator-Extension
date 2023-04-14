@@ -9,18 +9,36 @@ The process of transferring data from elabFTW to SMW involves the use of a proto
 Creating a generic test elabFTW template that includes some of the metadata used in the SMW protocol template and a link to the SMW special page. 
 Developing an SMW extension that is called on the SMW special page for the purpose of migrating data.
 
-## The main functionalities of the this extension are as follows:
+### Extension info
+* Backend:
+    - php: 7.3 +
 
-* Front-end:
-  - Collecting the elabFTW experiment ID from the user. 
-  - Checking if the ID exists in elabFTW, and if it does not, returning "Not Exist ID".
-  - A validation for the already migrated experiments. If the requested experiment has been already migrated this message is displayed returning the experiment link on SMW (Your experiment with ID = x has been migrated before. You can access it on SMW through this Link).  
-  - If the ID exists, getting the experiment data and metadata. 
-  - Creating the protocol page and its record on SMW. 
-  - Returning a link to the protocol on SMW and a back-link to elabFTW if the protocol page and its record are created successfully. 
+* Libraries:
+    - [Addwiki](https://github.com/addwiki) 2.8.0
+    - [PHP Simple HTML DOM Parser](https://simplehtmldom.sourceforge.io/docs/1.9/index.html)
+    
+    
+* Dependencies:
+    - [mediawiki-api](https://github.com/addwiki/mediawiki-api) 2.8.0 
+    - [mediawiki-api-base](https://github.com/addwiki/mediawiki-api-base) 2.8.0 
+    - [mediawiki-datamodel](https://github.com/addwiki/mediawiki-datamodel) 2.8.0
+    
+Please be aware that:
+- Version 2.8.0 works with =< PHP 7.3
+- Version 3.0.0 works with PHP 7.4 +
 
-* Back-end:
-  - Creating a Protocol assigned to a predefined protocol type on SMW using the data of the experiment. 
-  - Creating a record for the protocol using the metadata of the experiment. 
-  - Creating a reference link to the elabFTW experiment on the protocol page. 
-  - Creating an SMW protocol backlink that is ingested to the elabFTW experiment. 
+### Extension Functionalities
+
+As a first step, these functionalities have been installed and activted:
+
+- Collecting the elabFTW experiment ID from the user. 
+- Checking if the ID exists on elabFTW:
+ 	- If it does not, return "Not Exist ID". 
+	- If the ID exists, getting the experiment data and metadata:
+		- Creating a protocol page for the experiment on SMW.
+		- Return the protocol URL and display it to the user.
+		- Return a back-link to the protocol on SMW and insert it into Experiment page on elabFTW.
+	- If the experiment has been migrated before:
+		- The correponding protocol content is updated.
+		- Return the updated protocol URL and display it to the user. (The URL and Proocol name remain the same).
+
